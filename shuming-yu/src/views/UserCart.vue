@@ -275,11 +275,13 @@
 
 <script>
 import DelModal from "@/components/DelModal.vue";
+import productStore from "@/stores/productStore";
+import { mapState, mapActions } from "pinia";
 
 export default {
   data() {
     return {
-      products: [], // 產品資訊
+      // products: [], // 產品資訊
       isLoading: false, // 預設 false - 關閉功能
       status: {
         loadingItem: "", // 對應品項 id
@@ -306,18 +308,24 @@ export default {
     DelModal,
   },
 
+  computed: {
+    ...mapState(productStore, ['products']),
+  },
+
   methods: {
-    getProducts() {
-      // 顯示後台產品
-      // 取的商品列表api = https://github.com/hexschool/vue3-course-api-wiki/wiki/%E5%AE%A2%E6%88%B6%E8%B3%BC%E7%89%A9-%5B%E5%85%8D%E9%A9%97%E8%AD%89%5D#%E5%8F%96%E5%BE%97%E5%95%86%E5%93%81%E5%88%97%E8%A1%A8
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`;
-      this.isLoading = true;
-      this.$http.get(api).then((res) => {
-        console.log(res.data);
-        this.products = res.data.products; // 取得資訊丟到 products 陣列內
-        this.isLoading = false;
-      });
-    },
+    ...mapActions(productStore, ['getProducts']),
+
+    // getProducts() {
+    //   // 顯示後台產品
+    //   // 取的商品列表api = https://github.com/hexschool/vue3-course-api-wiki/wiki/%E5%AE%A2%E6%88%B6%E8%B3%BC%E7%89%A9-%5B%E5%85%8D%E9%A9%97%E8%AD%89%5D#%E5%8F%96%E5%BE%97%E5%95%86%E5%93%81%E5%88%97%E8%A1%A8
+    //   const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`;
+    //   this.isLoading = true;
+    //   this.$http.get(api).then((res) => {
+    //     console.log(res.data);
+    //     this.products = res.data.products; // 取得資訊丟到 products 陣列內
+    //     this.isLoading = false;
+    //   });
+    // },
 
     getProduct(id) {
       // 點選取得產品 id 後送到 product 頁面
