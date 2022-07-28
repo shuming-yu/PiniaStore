@@ -22,7 +22,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in products" :key="item.id">
+          <tr v-for="item in sortProducts" :key="item.id">
             <td style="width: 100px">
               <div
                 style="
@@ -276,13 +276,14 @@
 <script>
 import DelModal from "@/components/DelModal.vue";
 import productStore from "@/stores/productStore";
+import statusStore from "@/stores/statusStore";
 import { mapState, mapActions } from "pinia";
 
 export default {
   data() {
     return {
       // products: [], // 產品資訊
-      isLoading: false, // 預設 false - 關閉功能
+      // isLoading: false, // 預設 false - 關閉功能
       status: {
         loadingItem: "", // 對應品項 id
       },
@@ -309,7 +310,8 @@ export default {
   },
 
   computed: {
-    ...mapState(productStore, ['products']),
+    ...mapState(productStore, ['sortProducts']),  // products -> sortProducts
+    ...mapState(statusStore, ['isLoading']),
   },
 
   methods: {
@@ -333,7 +335,7 @@ export default {
     },
 
     addToCart(id) {
-      this.isLoading = true;
+      // this.isLoading = true;
       //console.log(id);
       // 加入購物車api = https://github.com/hexschool/vue3-course-api-wiki/wiki/%E5%AE%A2%E6%88%B6%E8%B3%BC%E7%89%A9-%5B%E5%85%8D%E9%A9%97%E8%AD%89%5D#%E5%8A%A0%E5%85%A5%E8%B3%BC%E7%89%A9%E8%BB%8A
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
@@ -343,7 +345,7 @@ export default {
         qty: 1, // 預設數量為 1
       };
       this.$http.post(api, { data: cart }).then((res) => {
-        this.isLoading = false;
+        // this.isLoading = false;
         this.status.loadingItem = ""; // 成功後清空
         console.log(res); // 確認送出是否成功
         if(res.data.success){
@@ -363,11 +365,11 @@ export default {
     },
 
     getCart() {
-      this.isLoading = true;
+      // this.isLoading = true;
       // 取得購物車列表api = https://github.com/hexschool/vue3-course-api-wiki/wiki/%E5%AE%A2%E6%88%B6%E8%B3%BC%E7%89%A9-%5B%E5%85%8D%E9%A9%97%E8%AD%89%5D#%E5%8F%96%E5%BE%97%E8%B3%BC%E7%89%A9%E8%BB%8A%E5%88%97%E8%A1%A8
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
       this.$http.get(api).then((res) => {
-        this.isLoading = false;
+        // this.isLoading = false;
         console.log(res.data.data.carts);
         this.cart = res.data.data;
       });
