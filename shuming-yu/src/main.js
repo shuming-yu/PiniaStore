@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 
 // vue-axios參考 : https://www.npmjs.com/package/vue-axios
 import axios from 'axios'
@@ -28,6 +29,7 @@ import App from './App.vue'
 import router from './router'
 
 const app = createApp(App)
+const pinia = createPinia()
 
 // globalProperties參考 : https://v3.cn.vuejs.org/api/application-config.html#globalproperties
 // filters 自定義屬性名稱, 前方加入 $ 不會跟區域元件內變數產生衝突
@@ -54,6 +56,7 @@ app.component('VField', Field)
 app.component('ErrorMessage', ErrorMessage)
 
 // use : 安裝插件
+app.use(pinia)
 app.use(VueAxios, axios)
 app.use(router)
 // component : 註冊全局組件
