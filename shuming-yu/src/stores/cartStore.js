@@ -28,18 +28,28 @@ export default defineStore("cartStore", {
         status.isLoading = false;
         status.cartLoadingItem = ""; // 成功後清空
         console.log(res); // 確認送出是否成功
-        // if(res.data.success){
-        //   this.emitter.emit('push-message', {
-        //     style: 'success',
-        //     title: '新增商品成功',
-        //   })
-        // }else{
-        //   this.emitter.emit('push-message', {
-        //     style: 'danger',
-        //     title: '新增商品失敗',
-        //     content: res.data.message.join('、'),
-        //   })
-        // }
+        if(res.data.success){
+          // this.emitter.emit('push-message', {
+          //   style: 'success',
+          //   title: '新增商品成功',
+          // })
+          // 對應 statusStore 事件參數
+          status.pushManager({
+            style: 'success',
+            title: '加入購物車成功',
+          })
+        }else{
+          // this.emitter.emit('push-message', {
+          //   style: 'danger',
+          //   title: '新增商品失敗',
+          //   content: res.data.message.join('、'),
+          // })
+          status.pushManager({
+            style: 'danger',
+            title: '加入購物車失敗',
+            content: res.data.message.join('、'),
+          })
+        }
         this.getCart(); // 重整購物車列表
       });
     },

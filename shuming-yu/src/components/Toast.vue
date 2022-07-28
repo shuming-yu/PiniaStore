@@ -37,7 +37,7 @@ export default {
   mounted() {
     const toastEl = this.$refs.toast;
     const toast = new Toast(toastEl, {
-      delay: 6000, // 開啟六秒後消失
+      delay: 3000, // 開啟三秒後消失
     });
     toast.show();
   },
